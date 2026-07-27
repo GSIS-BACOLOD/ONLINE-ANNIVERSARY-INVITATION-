@@ -133,6 +133,47 @@
             text-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
         }
 
+        /* Room Features Section Styling */
+        .room-features-box {
+            background: rgba(10, 17, 40, 0.6);
+            border: 1px solid rgba(192, 192, 192, 0.2);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+        }
+
+        .room-features-box h5 {
+            color: var(--silver-main);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features-list li {
+            color: var(--silver-light);
+            font-size: 0.92rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .features-list i {
+            color: #72efdd;
+            width: 16px;
+            text-align: center;
+        }
+
         /* Form Control Styling */
         .form-label {
             color: var(--silver-main);
@@ -247,6 +288,14 @@
             .rate-badge {
                 font-size: 1rem;
             }
+            
+            .room-features-box {
+                padding: 14px 15px;
+            }
+            
+            .features-list li {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -280,6 +329,20 @@
         <div class="card-content">
             <h2 class="text-center mb-4">Room Reservation</h2>
             
+            <!-- Room Features Container -->
+            <div class="room-features-box">
+                <h5 class="mb-3"><i class="fas fa-concierge-bell me-2"></i>Room Features</h5>
+                <ul class="features-list">
+                    <li><i class="fas fa-clock"></i> <span><strong>Check-in:</strong> 3:00 PM | <strong>Check-out:</strong> 11:00 AM</span></li>
+                    <li><i class="fas fa-utensils"></i> <span>With Complimentary Breakfast</span></li>
+                    <li><i class="fas fa-wifi"></i> <span>Free Wi-Fi in designated areas</span></li>
+                    <li><i class="fas fa-shower"></i> <span>Hot and cold shower</span></li>
+                    <li><i class="fas fa-tv"></i> <span>Fully air-conditioned rooms with cable TV</span></li>
+                    <li><i class="fas fa-swimming-pool"></i> <span>Free access to resort pool (7:00 AM – 6:00 PM)</span></li>
+                    <li><i class="fas fa-broom"></i> <span>Housekeeping services</span></li>
+                </ul>
+            </div>
+
             <!-- Action URL points to Google Form handler -->
             <form id="bookingForm" action="https://docs.google.com/forms/d/1U53TgJ1j8uAPiTEOHK2N0UupxW2IJiOY1qUtTv0MASM/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
                 
