@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Reservation</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base & Color Theme: Navy Blue & Silver */
+        :root {
+            --navy-dark: #0a1128;
+            --navy-medium: #1c2541;
+            --navy-accent: #2e3a59;
+            --silver-main: #e0e1dd;
+            --silver-light: #f8f9fa;
+            --silver-accent: #c0c0c0;
+        }
+
+        body {
+            background-color: var(--navy-dark);
+            color: var(--silver-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 15px 40px 15px;
+        }
+
+        /* Canvas for Silver Dust Animation */
+        #dust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Header Navigation Layout */
+        .top-nav-container {
+            width: 100%;
+            max-width: 650px;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 20px;
+            padding: 0 5px;
+        }
+
+        /* Navigation Buttons Styling */
+        .btn-nav-top {
+            background: rgba(28, 37, 65, 0.85);
+            border: 1px solid var(--silver-accent);
+            color: var(--silver-light);
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-nav-top:hover {
+            background: var(--silver-main);
+            color: var(--navy-dark);
+            border-color: #ffffff;
+            box-shadow: 0 0 12px rgba(224, 225, 221, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Card Container Styling */
+        .reservation-card {
+            background: rgba(28, 37, 65, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(192, 192, 192, 0.1);
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 650px;
+            padding: 35px;
+            margin: 0 0 auto 0;
+            overflow: visible; /* Allows rotating logo to exceed form boundaries */
+        }
+
+        /* Centered Rotating Logo (Background/Watermark Effect) */
+        .rotating-bg-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 750px; /* Big size exceeding form boundaries */
+            height: 750px;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12; /* Subtle background watermark effect */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            animation: spin 25s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Ensure card contents sit nicely above the rotating background logo */
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+        }
+
+        /* Form Control Styling */
+        .form-label {
+            color: var(--silver-main);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .form-select, .form-control {
+            background-color: rgba(10, 17, 40, 0.7);
+            border: 1px solid var(--navy-accent);
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 12px 14px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-select:focus, .form-control:focus {
+            background-color: rgba(10, 17, 40, 0.9);
+            border-color: var(--silver-accent);
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(192, 192, 192, 0.4);
+        }
+
+        .form-select option {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+        }
+
+        .rate-badge {
+            background: linear-gradient(135deg, #2e3a59 0%, #1c2541 100%);
+            border: 1px solid var(--silver-accent);
+            border-radius: 8px;
+            padding: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        /* Extra Bed Info Note */
+        .bed-info-note {
+            color: #72efdd;
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(114, 239, 221, 0.1);
+            border-left: 3px solid #72efdd;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Submit Button */
+        .btn-reserve {
+            background: linear-gradient(135deg, #c0c0c0 0%, #8a9a86 0%, #e0e1dd 100%);
+            color: var(--navy-dark);
+            font-weight: 700;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .btn-reserve:hover {
+            background: #ffffff;
+            color: var(--navy-dark);
+            box-shadow: 0 0 15px rgba(224, 225, 221, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Hidden Sections */
+        .hidden-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 576px) {
+            body {
+                padding: 12px 10px 30px 10px;
+            }
+
+            .top-nav-container {
+                margin-bottom: 15px;
+            }
+
+            .btn-nav-top {
+                padding: 6px 14px;
+                font-size: 0.82rem;
+            }
+
+            .reservation-card {
+                padding: 22px 16px;
+                border-radius: 12px;
+            }
+
+            .rotating-bg-logo {
+                width: 480px;
+                height: 480px;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .rate-badge {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Background for Silver Dust Effect -->
+    <canvas id="dust-canvas"></canvas>
+
+    <!-- Top Navigation Header -->
+    <div class="top-nav-container">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <!-- Back Button -->
+            <a href="event.html" class="btn-nav-top">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </a>
+            <!-- Room Gallery Button -->
+            <a href="room_gallery.html" class="btn-nav-top">
+                <i class="fas fa-images"></i>
+                <span>Room Gallery</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Card Container -->
+    <div class="reservation-card">
+        
+        <!-- Rotating Center Watermark Logo -->
+        <img src="logo.png" class="rotating-bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
+
+        <div class="card-content">
+            <h2 class="text-center mb-4">Room Reservation</h2>
+            
+            <!-- Action URL points to Google Form handler -->
+            <form id="bookingForm" action="https://docs.google.com/forms/d/1U53TgJ1j8uAPiTEOHK2N0UupxW2IJiOY1qUtTv0MASM/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+                
+                <!-- Step 1: Room Selection -->
+                <div class="mb-3">
+                    <label for="roomType" class="form-label">1. Choose Room Type</label>
+                    <select id="roomType" name="entry.1474642435" class="form-select" required>
+                        <option value="" selected disabled>-- Select Room --</option>
+                        <option value="Standard Rooms">Standard Rooms</option>
+                        <option value="Superior Rooms">Superior Rooms</option>
+                        <option value="Deluxe East Rooms">Deluxe East Rooms</option>
+                        <option value="Premier Rooms">Premier Rooms</option>
+                        <option value="Lola's House (Villa)">Lola's House (Villa)</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic Bed Configuration (Hidden initially) -->
+                <div id="bedConfigSection" class="mb-3 hidden-section">
+                    <label for="bedConfig" class="form-label">2. Bed Configuration</label>
+                    <select id="bedConfig" name="entry.1077817451" class="form-select" required>
+                        <!-- Options populated via JS -->
+                    </select>
+                </div>
+
+                <!-- Dynamic Pricing Options (Hidden initially) -->
+                <div id="rateTypeSection" class="mb-3 hidden-section">
+                    <label for="rateType" class="form-label">3. Select Rate Type</label>
+                    <select id="rateType" name="entry.1095349803" class="form-select" required>
+                        <!-- Options populated via JS -->
+                    </select>
+                    <!-- Dynamic notice for Triple/Quadruple Sharing -->
+                    <div id="extraBedNotice" class="bed-info-note hidden-section">
+                        Additional beds will be provided based on your selected Triple or Quadruple Sharing option.
+                    </div>
+                </div>
+
+                <!-- Calculated Rate Display -->
+                <div id="rateDisplaySection" class="mb-4 hidden-section">
+                    <div class="rate-badge">
+                        Selected Price: <strong>₱<span id="calculatedPrice">0</span></strong>
+                    </div>
+                </div>
+
+                <hr class="my-4" style="border-color: rgba(192, 192, 192, 0.3);">
+
+                <!-- Step 2: Personal Details (Appears after choosing rate) -->
+                <div id="personalDetailsSection" class="hidden-section">
+                    <h5 class="mb-3 text-white">4. Personal Information</h5>
+                    
+                    <div class="mb-3">
+                        <label for="guestName" class="form-label">Full Name</label>
+                        <input type="text" id="guestName" name="entry.2143664159" class="form-control" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="guestEmail" class="form-label">Email Address</label>
+                        <input type="email" id="guestEmail" name="entry.1816122042" class="form-control" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="guestContact" class="form-label">Contact Number</label>
+                        <input type="tel" id="guestContact" name="entry.2065164628" class="form-control" placeholder="09123456789" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-reserve w-100">Confirm & Reserve Room</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden Iframe to handle Google Forms submission silently and redirect -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){alert('Reservation Submitted Successfully!'); window.location.href='event.html';}"></iframe>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Room Data Matrix
+        const roomData = {
+            "Standard Rooms": {
+                beds: ["1 King Bed", "2 Single Beds"],
+                rates: { "Single/Double": "2,800" }
+            },
+            "Superior Rooms": {
+                beds: ["1 King Bed", "2 Single Beds"],
+                rates: { "Single/Double": "3,360", "Triple Sharing": "6,200", "Quadruple Sharing": "7,200" }
+            },
+            "Deluxe East Rooms": {
+                beds: ["1 King Bed", "2 Single Beds", "1 Queen Bed and 1 Single Bed"],
+                rates: { "Single/Double": "4,400", "Triple Sharing": "7,500", "Quadruple Sharing": "8,500" }
+            },
+            "Premier Rooms": {
+                beds: ["1 King Bed", "2 Single Beds", "1 Queen Bed and 1 Single Bed"],
+                rates: { "Single/Double": "5,200" }
+            },
+            "Lola's House (Villa)": {
+                beds: ["2 Single Beds + 4 Extra Beds"],
+                rates: { 
+                    "Single/Double (up to 6pax)": "10,000", 
+                    "Triple Sharing (up to 6pax)": "10,000", 
+                    "Quadruple Sharing (up to 6pax)": "10,000" 
+                }
+            }
+        };
+
+        // DOM Elements
+        const roomSelect = document.getElementById("roomType");
+        const bedSection = document.getElementById("bedConfigSection");
+        const bedSelect = document.getElementById("bedConfig");
+        const rateSection = document.getElementById("rateTypeSection");
+        const rateSelect = document.getElementById("rateType");
+        const extraBedNotice = document.getElementById("extraBedNotice");
+        const displaySection = document.getElementById("rateDisplaySection");
+        const priceSpan = document.getElementById("calculatedPrice");
+        const personalSection = document.getElementById("personalDetailsSection");
+
+        // Step 1: Change Room Type
+        roomSelect.addEventListener("change", function() {
+            const selectedRoom = this.value;
+            const data = roomData[selectedRoom];
+
+            // Reset downstream inputs
+            bedSelect.innerHTML = '<option value="" selected disabled>-- Select Bed Configuration --</option>';
+            rateSelect.innerHTML = '<option value="" selected disabled>-- Select Occupancy/Rate --</option>';
+            extraBedNotice.style.display = "none";
+            displaySection.style.display = "none";
+            personalSection.style.display = "none";
+
+            // Populate Beds
+            if (data && data.beds) {
+                data.beds.forEach(bed => {
+                    const opt = document.createElement("option");
+                    opt.value = bed;
+                    opt.textContent = bed;
+                    bedSelect.appendChild(opt);
+                });
+            }
+
+            bedSection.style.display = "block";
+            rateSection.style.display = "none";
+        });
+
+        // Step 2: Change Bed Configuration
+        bedSelect.addEventListener("change", function() {
+            const selectedRoom = roomSelect.value;
+            const rates = roomData[selectedRoom]?.rates;
+
+            rateSelect.innerHTML = '<option value="" selected disabled>-- Select Occupancy/Rate --</option>';
+            extraBedNotice.style.display = "none";
+
+            // Populate Available Rates
+            if (rates) {
+                for (let rateName in rates) {
+                    const opt = document.createElement("option");
+                    opt.value = rateName;
+                    opt.textContent = `${rateName} — ₱${rates[rateName]}`;
+                    opt.dataset.price = rates[rateName];
+                    rateSelect.appendChild(opt);
+                }
+            }
+
+            rateSection.style.display = "block";
+        });
+
+        // Step 3: Select Rate -> Show Price, Check Notice & Show Personal Form
+        rateSelect.addEventListener("change", function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const selectedRateText = selectedOption.value.toLowerCase();
+            const price = selectedOption.dataset.price;
+
+            priceSpan.textContent = price;
+            displaySection.style.display = "block";
+            personalSection.style.display = "block";
+
+            // Check if Triple or Quadruple sharing is selected
+            if (selectedRateText.includes("triple") || selectedRateText.includes("quadruple")) {
+                extraBedNotice.style.display = "block";
+            } else {
+                extraBedNotice.style.display = "none";
+            }
+        });
+
+        // --- Silver Dust Particle Background Animation ---
+        const canvas = document.getElementById("dust-canvas");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+        const numParticles = 65;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * -0.5 - 0.2; // Slowly floating upward
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.pulse = Math.random() * 0.02 + 0.005;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Subtle twinkle
+                this.opacity += Math.sin(Date.now() * 0.003) * 0.01;
+
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.reset();
+                    this.y = canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(224, 225, 221, ${Math.abs(this.opacity)})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = "#ffffff";
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        let submitted = false;
+    </script>
+</body>
+</html>
