@@ -44,7 +44,7 @@
             z-index: 1;
         }
 
-        /* Fixed Upper Left and Right Logos */
+        /* Fixed Upper Left Logo */
         .corner-logo {
             position: fixed;
             top: 20px;
@@ -62,10 +62,6 @@
 
         .corner-left {
             left: 25px;
-        }
-
-        .corner-right {
-            right: 25px;
         }
 
         .main-wrapper {
@@ -188,17 +184,31 @@
             overflow: hidden;
             border-radius: 10px;
             border: 1px solid rgba(192, 192, 192, 0.2);
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            cursor: pointer; /* Indicates it's clickable */
+            cursor: pointer;
             position: relative;
         }
 
         .resort-image {
             width: 100%;
-            height: auto;
+            height: 220px;
+            object-fit: cover;
             display: block;
             transition: transform 0.5s ease;
+        }
+
+        .map-image {
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .img-caption-label {
+            font-size: 0.85rem;
+            color: var(--silver-accent);
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         .img-wrapper:hover .resort-image {
@@ -272,7 +282,7 @@
             display: block;
         }
 
-        /* Sample Dress Code Button */
+        /* Sample Dress Code Button & Arrow Pointer */
         .btn-dress-code-sample {
             background: transparent;
             color: var(--silver-primary);
@@ -293,6 +303,21 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
             text-decoration: none;
+        }
+
+        /* Animated Pointer Arrow */
+        .arrow-pointer {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 6px;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            animation: pointRight 1.2s infinite alternate ease-in-out;
+        }
+
+        @keyframes pointRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(6px); }
         }
 
         /* Contact Links */
@@ -521,7 +546,6 @@
             }
 
             .corner-left { left: 12px; }
-            .corner-right { right: 12px; }
 
             .event-card {
                 margin-top: 90px;
@@ -575,7 +599,6 @@
             }
 
             .corner-left { left: 8px; }
-            .corner-right { right: 8px; }
 
             .event-card {
                 margin-top: 75px;
@@ -600,7 +623,7 @@
     <!-- Silver Glitter Canvas -->
     <canvas id="glitterCanvas"></canvas>
 
-    <!-- Upper Left and Upper Right Logos -->
+    <!-- Upper Left Logo -->
     <img src="logo.png" class="corner-logo corner-left" alt="GSIS Logo" onerror="this.src='https://via.placeholder.com/100/112240/FFFFFF?text=GSIS'">
 
     <div class="container main-wrapper">
@@ -647,20 +670,30 @@
                             <p><strong>Time:</strong> 6:00 PM PST</p>
                             <p><strong>Venue:</strong> Nature's Village Resort, Talisay City — Padre Pio Pavilion B & C</p>
                             
+                            <!-- Venue Images: Padre Pio Pavilion Images -->
                             <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <!-- Added onclick to open lightbox -->
-                                    <div class="img-wrapper" onclick="openLightbox('Natures-Village-Resort-1.jpg', 'Nature\'s Village Resort')">
+                                <div class="col-md-6 mb-3">
+                                    <div class="img-wrapper" onclick="openLightbox('padre_pio.png', 'Padre Pio Pavilion')">
                                         <div class="img-wrapper-overlay"><i class="fas fa-search-plus"></i></div>
-                                        <img src="Natures-Village-Resort-1.jpg" alt="Nature's Village Resort" class="resort-image" onerror="this.src='https://via.placeholder.com/600x400/112240/FFFFFF?text=Nature%27s+Village+Resort'">
+                                        <img src="padre_pio.png" alt="Padre Pio Pavilion" class="resort-image" onerror="this.src='https://via.placeholder.com/600x400/112240/FFFFFF?text=Padre+Pio+Pavilion'">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <!-- Added onclick to open lightbox -->
-                                    <div class="img-wrapper" onclick="openLightbox('Natures-Village-Resort-Map.jpg', 'Nature\'s Village Resort Map')">
+                                <div class="col-md-6 mb-3">
+                                    <div class="img-wrapper" onclick="openLightbox('padre_pio_2.png', 'Padre Pio Pavilion View')">
                                         <div class="img-wrapper-overlay"><i class="fas fa-search-plus"></i></div>
-                                        <img src="Natures-Village-Resort-Map.jpg" alt="Nature's Village Resort Map" class="resort-image" onerror="this.src='https://via.placeholder.com/600x400/112240/FFFFFF?text=Resort+Map'">
+                                        <img src="padre_pio_2.png" alt="Padre Pio Pavilion View" class="resort-image" onerror="this.src='https://via.placeholder.com/600x400/112240/FFFFFF?text=Padre+Pio+Pavilion+2'">
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- Nature's Village Resort Map Below -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="img-wrapper" onclick="openLightbox('Natures-Village-Resort-Map.jpg', 'Natures Village Resort Map')">
+                                        <div class="img-wrapper-overlay"><i class="fas fa-search-plus"></i></div>
+                                        <img src="Natures-Village-Resort-Map.jpg" alt="Natures Village Resort Map" class="resort-image map-image" onerror="this.src='https://via.placeholder.com/800x400/112240/FFFFFF?text=Natures+Village+Resort+Map'">
+                                    </div>
+                                    <div class="img-caption-label">Natures Village Resort Map</div>
                                 </div>
                             </div>
                         </div>
@@ -669,9 +702,12 @@
                         <div class="dress-code">
                             <div class="d-flex align-items-center justify-content-between flex-wrap section-heading">
                                 <div><i class="fas fa-user-tie mr-2"></i>Dress Code</div>
-                                <button class="btn btn-dress-code-sample my-1" data-toggle="modal" data-target="#dressCodeModal">
-                                    <i class="fas fa-images mr-1"></i> Sample Dress Code
-                                </button>
+                                <div class="d-flex align-items-center my-1">
+                                    <span class="arrow-pointer"><a>click here </a><i class="fas fa-arrow-right"></i></span>
+                                    <button class="btn btn-dress-code-sample" data-toggle="modal" data-target="#dressCodeModal">
+                                        <i class="fas fa-images mr-1"></i> Sample Dress Code
+                                    </button>
+                                </div>
                             </div>
                             
                             <div class="row">
@@ -824,81 +860,74 @@
         </div>
     </div>
 
-    <!-- Image Enlargement Lightbox Modal -->
+    <!-- Image Enlargement Lightbox Modal with Close Button -->
     <div class="modal fade" id="lightboxModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content" style="background: transparent; border: none;">
-                <div class="modal-body text-center p-0 position-relative">
-                    <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close" style="top: 10px; right: 15px; z-index: 10; color: white; text-shadow: 0 0 5px black; opacity: 1;">
-                        <span aria-hidden="true">&times;</span>
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom border-0 d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title modal-title-custom" id="lightboxTitle">Image Preview</h5>
+                    <button type="button" class="close close-custom" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
                     </button>
-                    <img id="lightboxImage" src="" class="img-fluid rounded" alt="Enlarged View" style="max-height: 90vh; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-                    <div id="lightboxCaption" class="text-white mt-2 font-weight-bold" style="text-shadow: 0 0 5px black;"></div>
+                </div>
+                <div class="modal-body text-center p-3">
+                    <img id="lightboxImage" src="" alt="Enlarged View" class="lightbox-img">
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Interactive Scripts -->
     <script>
-        // Image Enlargement Lightbox Handler
-        function openLightbox(imageSrc, caption) {
-            $('#lightboxImage').attr('src', imageSrc);
-            $('#lightboxCaption').text(caption);
-            
-            // Handle image load error in Lightbox
-            $('#lightboxImage').one('error', function() {
-                $(this).attr('src', 'https://via.placeholder.com/800x600/112240/FFFFFF?text=Image+Not+Found');
-            });
-
+        // Open Lightbox Image Function
+        function openLightbox(src, title) {
+            $('#lightboxImage').attr('src', src);
+            $('#lightboxTitle').text(title || 'Image Preview');
             $('#lightboxModal').modal('show');
         }
 
-        // Precise Countdown Timer JavaScript
-        var countDownDate = new Date("September 24, 2026 18:00:00").getTime();
+        // Countdown Timer Logic
+        const targetDate = new Date("September 24, 2026 18:00:00 PST").getTime();
 
         function updateCountdown() {
-            var now = new Date().getTime();
-            var distance = countDownDate - now;
+            const now = new Date().getTime();
+            const difference = targetDate - now;
 
-            if (distance < 0) {
-                document.getElementById("days").innerHTML = "0";
-                document.getElementById("hours").innerHTML = "0";
-                document.getElementById("minutes").innerHTML = "0";
-                document.getElementById("seconds").innerHTML = "0";
-                return;
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                $('#days').text(String(days).padStart(2, '0'));
+                $('#hours').text(String(hours).padStart(2, '0'));
+                $('#minutes').text(String(minutes).padStart(2, '0'));
+                $('#seconds').text(String(seconds).padStart(2, '0'));
+            } else {
+                $('#days, #hours, #minutes, #seconds').text('00');
             }
-
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
         }
 
-        updateCountdown();
         setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-        // Silver Glitter Canvas Particle Animation
+        // Silver Glitter Canvas Animation
         const canvas = document.getElementById('glitterCanvas');
         const ctx = canvas.getContext('2d');
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
+        const particles = [];
+        const particleCount = 70;
 
         class Particle {
             constructor() {
@@ -906,54 +935,41 @@
             }
 
             reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2.5 + 0.5;
-                this.speedY = -(Math.random() * 0.4 + 0.1);
-                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.speedY = Math.random() * 0.5 + 0.1;
                 this.opacity = Math.random();
-                this.fadeSpeed = Math.random() * 0.015 + 0.005;
+                this.fadeSpeed = Math.random() * 0.02 + 0.005;
                 this.fadeDirection = Math.random() > 0.5 ? 1 : -1;
             }
 
             update() {
-                this.y += this.speedY;
-                this.x += this.speedX;
+                this.y -= this.speedY;
+                if (this.y < 0) this.y = canvas.height;
 
                 this.opacity += this.fadeSpeed * this.fadeDirection;
-                if (this.opacity >= 1) {
-                    this.opacity = 1;
-                    this.fadeDirection = -1;
-                } else if (this.opacity <= 0) {
-                    this.opacity = 0;
-                    this.fadeDirection = 1;
-                }
-
-                if (this.y < 0 || this.x < 0 || this.x > width) {
-                    this.reset();
-                    this.y = height;
+                if (this.opacity >= 1 || this.opacity <= 0) {
+                    this.fadeDirection *= -1;
                 }
             }
 
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(230, 241, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(230, 241, 255, ${Math.max(0, this.opacity)})`;
                 ctx.shadowBlur = 8;
-                ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                ctx.shadowColor = '#FFFFFF';
                 ctx.fill();
             }
         }
-
-        const particles = [];
-        const particleCount = 70;
 
         for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
 
         function animateGlitter() {
-            ctx.clearRect(0, 0, width, height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
                 p.update();
                 p.draw();

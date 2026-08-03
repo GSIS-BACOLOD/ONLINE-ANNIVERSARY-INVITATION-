@@ -76,28 +76,18 @@
             z-index: 0;
         }
 
-        /* Rotating Background Logo */
+        /* Static Background Logo (Bigger Size) */
         .bg-logo {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px;
-            max-width: 80vw;
+            width: 650px;
+            max-width: 85vw;
             height: auto;
             opacity: 0.12;
             z-index: 1;
             pointer-events: none;
-            animation: rotateLogo 40s linear infinite;
-        }
-
-        @keyframes rotateLogo {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
         }
 
         /* Hero Content */
@@ -128,6 +118,7 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 10px;
+            margin-top: 80px; /* Moved down further */
             margin-bottom: 5px;
             padding-bottom: 12px;
             position: relative;
@@ -177,7 +168,7 @@
             display: flex;
             justify-content: center;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px;
             animation: float 3.5s ease-in-out infinite;
         }
 
@@ -314,15 +305,14 @@
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
-        .envelope:hover + .click-text + .shadow,
         .envelope:hover .shadow {
              transform: translateX(-50%) scaleX(1.1);
              opacity: 0.8;
         }
 
         .click-text {
-            margin-top: 45px;
-            color: var(--silver-bright);
+            margin-bottom: 15px;
+            color: var(--silver-light);
             letter-spacing: 3px;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -372,13 +362,13 @@
         *****************************/
         @media (max-width: 768px) {
             .bg-logo {
-                width: 380px;
+                width: 460px;
             }
 
             .small-text {
                 font-size: 0.85rem;
                 letter-spacing: 5px;
-                margin-bottom: 50px;
+                margin-top: 60px;
             }
 
             .title {
@@ -399,20 +389,20 @@
             }
 
             .click-text {
-                margin-top: 30px;
                 font-size: 0.8rem;
+                margin-bottom: 10px;
             }
         }
 
         @media (max-width: 480px) {
             .bg-logo {
-                width: 300px;
+                width: 360px;
             }
 
             .small-text {
                 font-size: 0.75rem;
                 letter-spacing: 3px;
-                margin-bottom: 20px;
+                margin-top: 50px;
             }
 
             .title {
@@ -435,14 +425,14 @@
     <!-- Silver Glitter Background Canvas -->
     <canvas id="glitterCanvas"></canvas>
 
-    <!-- Rotating Background Logo -->
-    <img src="logo.png" class="bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/500/112240/FFFFFF?text=GSIS+Logo'">
+    <!-- Static Background Logo -->
+    <img src="logo.png" class="bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/650/112240/FFFFFF?text=GSIS+Logo'">
 
     <div class="container hero">
         <div class="hero-content">
 
-            <!-- Placed strictly at top with elevated styling -->
-            <div class="small-text">Government Service Insurance System</div>
+            <!-- Instruction Text ABOVE the Envelope -->
+            <div class="click-text">Click the invitation to open</div>
 
             <!-- Envelope Component -->
             <div id="envelopeWrapper" class="envelope-wrapper">
@@ -457,7 +447,8 @@
                 </div>
             </div>
 
-            <div class="click-text">Click the invitation to open</div>
+            <!-- Government Service Insurance System Text BELOW the Envelope -->
+            <div class="small-text">Government Service Insurance System</div>
 
         </div>
     </div>

@@ -71,6 +71,7 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            position: relative;
         }
 
         .btn-nav-top:hover {
@@ -79,6 +80,55 @@
             border-color: #ffffff;
             box-shadow: 0 0 12px rgba(224, 225, 221, 0.5);
             transform: translateY(-2px);
+        }
+
+        /* Room Gallery Wrapper for Tooltip positioning */
+        .gallery-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Pointing Arrow & Callout Styling */
+        .click-here-callout {
+            position: absolute;
+            left: -115px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none;
+            animation: bounceArrow 1.5s infinite;
+            z-index: 20;
+        }
+
+        .click-here-badge {
+            background: #72efdd;
+            color: var(--navy-dark);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(114, 239, 221, 0.6);
+            white-space: nowrap;
+        }
+
+        .click-here-arrow {
+            color: #72efdd;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 5px rgba(114, 239, 221, 0.8));
+        }
+
+        /* Horizontal Bouncing Animation */
+        @keyframes bounceArrow {
+            0%, 100% {
+                transform: translateY(-50%) translateX(0);
+            }
+            50% {
+                transform: translateY(-50%) translateX(-6px);
+            }
         }
 
         /* Card Container Styling */
@@ -94,34 +144,37 @@
             max-width: 650px;
             padding: 35px;
             margin: 0 0 auto 0;
-            overflow: visible; /* Allows rotating logo to exceed form boundaries */
+            overflow: visible;
         }
 
-        /* Centered Rotating Logo (Background/Watermark Effect) */
-        .rotating-bg-logo {
+        /* Centered Pulse/Glow Logo */
+        .static-bg-logo {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 750px; /* Big size exceeding form boundaries */
+            width: 750px;
             height: 750px;
             object-fit: contain;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.12; /* Subtle background watermark effect */
+            opacity: 0.12;
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-            animation: spin 25s linear infinite;
+            animation: floatGlow 6s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
+        @keyframes floatGlow {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+                opacity: 0.10;
             }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
+            50% {
+                transform: translate(-50%, -52%) scale(1.03);
+                filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.35));
+                opacity: 0.16;
             }
         }
 
-        /* Ensure card contents sit nicely above the rotating background logo */
         .card-content {
             position: relative;
             z-index: 1;
@@ -271,12 +324,25 @@
                 font-size: 0.82rem;
             }
 
+            .click-here-callout {
+                left: -95px;
+            }
+
+            .click-here-badge {
+                font-size: 0.65rem;
+                padding: 3px 6px;
+            }
+
+            .click-here-arrow {
+                font-size: 1rem;
+            }
+
             .reservation-card {
                 padding: 22px 16px;
                 border-radius: 12px;
             }
 
-            .rotating-bg-logo {
+            .static-bg-logo {
                 width: 480px;
                 height: 480px;
             }
@@ -312,19 +378,26 @@
                 <i class="fas fa-arrow-left"></i>
                 <span>Back</span>
             </a>
-            <!-- Room Gallery Button -->
-            <a href="room_gallery.html" class="btn-nav-top">
-                <i class="fas fa-images"></i>
-                <span>Room Gallery</span>
-            </a>
+            
+            <!-- Room Gallery Button with Pointing Arrow -->
+            <div class="gallery-btn-wrapper">
+                <div class="click-here-callout">
+                    <span class="click-here-badge">Click Here</span>
+                    <i class="fas fa-arrow-right click-here-arrow"></i>
+                </div>
+                <a href="room_gallery.html" class="btn-nav-top">
+                    <i class="fas fa-images"></i>
+                    <span>Room Gallery</span>
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- Main Card Container -->
     <div class="reservation-card">
         
-        <!-- Rotating Center Watermark Logo -->
-        <img src="logo.png" class="rotating-bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
+        <!-- Center Watermark Logo -->
+        <img src="logo.png" class="static-bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
 
         <div class="card-content">
             <h2 class="text-center mb-4">Room Reservation</h2>
@@ -414,7 +487,7 @@
         </div>
     </div>
 
-    <!-- Hidden Iframe to handle Google Forms submission silently and redirect -->
+    <!-- Hidden Iframe to handle Google Forms submission silently -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){alert('Reservation Submitted Successfully!'); window.location.href='event.html';}"></iframe>
 
     <!-- JavaScript Logic -->
@@ -548,7 +621,7 @@
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2.5 + 0.5;
                 this.speedX = Math.random() * 0.4 - 0.2;
-                this.speedY = Math.random() * -0.5 - 0.2; // Slowly floating upward
+                this.speedY = Math.random() * -0.5 - 0.2;
                 this.opacity = Math.random() * 0.7 + 0.3;
                 this.pulse = Math.random() * 0.02 + 0.005;
             }
@@ -557,7 +630,6 @@
                 this.x += this.speedX;
                 this.y += this.speedY;
 
-                // Subtle twinkle
                 this.opacity += Math.sin(Date.now() * 0.003) * 0.01;
 
                 if (this.y < 0 || this.x < 0 || this.x > canvas.width) {

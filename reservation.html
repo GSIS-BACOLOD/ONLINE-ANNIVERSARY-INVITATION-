@@ -54,15 +54,16 @@
       box-shadow: 0 0 25px var(--silver-glow);
       backdrop-filter: blur(5px);
       position: relative;
-      overflow: visible; /* Allows rotating logo to exceed form boundaries */
+      overflow: visible; /* Allows watermark logo to exceed form boundaries */
       z-index: 1;
     }
 
-    /* Centered Rotating Watermark Logo */
-    .rotating-bg-logo {
+    /* Centered Stationary Pulsing Watermark Logo */
+    .bg-logo-watermark {
       position: absolute;
       top: 50%;
       left: 50%;
+      transform: translate(-50%, -50%);
       width: 750px; /* Big size exceeding form boundaries */
       height: 750px;
       object-fit: contain;
@@ -70,19 +71,24 @@
       z-index: 0;
       opacity: 0.12; /* Subtle background watermark effect */
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-      animation: spin 25s linear infinite;
+      animation: silverPulse 6s ease-in-out infinite alternate;
     }
 
-    @keyframes spin {
-      from {
-        transform: translate(-50%, -50%) rotate(0deg);
+    /* Subtle Pulsing & Breathing Glow Effect */
+    @keyframes silverPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.10;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
       }
-      to {
-        transform: translate(-50%, -50%) rotate(360deg);
+      100% {
+        transform: translate(-50%, -50%) scale(1.03);
+        opacity: 0.18;
+        filter: drop-shadow(0 0 25px rgba(230, 232, 250, 0.35));
       }
     }
 
-    /* Ensure form content stays on top of rotating background */
+    /* Ensure form content stays on top of background logo */
     .card-content {
       position: relative;
       z-index: 1;
@@ -177,7 +183,7 @@
         padding: 1.5rem !important;
       }
 
-      .rotating-bg-logo {
+      .bg-logo-watermark {
         width: 500px;
         height: 500px;
       }
@@ -188,7 +194,7 @@
     }
 
     @media (max-width: 480px) {
-      .rotating-bg-logo {
+      .bg-logo-watermark {
         width: 400px;
         height: 400px;
       }
@@ -210,8 +216,8 @@
         <!-- Reservation Card -->
         <div class="reservation-card p-4 p-md-5">
           
-          <!-- Centered Rotating Watermark Logo -->
-          <img src="logo.png" class="rotating-bg-logo" alt="GSIS Rotating Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
+          <!-- Centered Watermark Logo -->
+          <img src="logo.png" class="bg-logo-watermark" alt="GSIS Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
 
           <div class="card-content">
             <h2 class="text-center title-silver mb-4">RESERVE YOUR SEAT</h2>

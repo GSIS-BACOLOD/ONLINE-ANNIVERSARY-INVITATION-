@@ -78,7 +78,7 @@
       transform: translateY(-1px);
     }
 
-    /* Main Container with Rotating Logo Background */
+    /* Main Container with Watermark Logo Background */
     .gallery-container {
       position: relative;
       max-width: 1200px;
@@ -86,8 +86,8 @@
       padding: 20px 15px;
     }
 
-    /* Centered Rotating Watermark Logo */
-    .rotating-bg-logo {
+    /* Centered Ambient Pulsing Watermark Logo (No Spin) */
+    .static-bg-logo {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -98,12 +98,18 @@
       z-index: 0;
       opacity: 0.08;
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-      animation: spin 25s linear infinite;
+      animation: pulse 8s ease-in-out infinite alternate;
     }
 
-    @keyframes spin {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(-50%, -50%) rotate(360deg); }
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.06;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.04);
+        opacity: 0.10;
+      }
     }
 
     .content-wrapper {
@@ -270,7 +276,7 @@
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .image-wrapper { height: 200px; }
-      .rotating-bg-logo { width: 480px; height: 480px; }
+      .static-bg-logo { width: 480px; height: 480px; }
       .title-silver { font-size: 1.6rem; }
       .btn-filter { padding: 8px 14px; font-size: 0.88rem; }
     }
@@ -281,8 +287,8 @@
   <!-- Silver Dust Canvas Background -->
   <canvas id="dust-canvas"></canvas>
 
-  <!-- Rotating Background Logo -->
-  <img src="logo.png" class="rotating-bg-logo" alt="GSIS Rotating Logo" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
+  <!-- Pulsing Background Watermark Logo -->
+  <img src="logo.png" class="static-bg-logo" alt="GSIS Logo Watermark" onerror="this.src='https://via.placeholder.com/750/152238/FFFFFF?text=GSIS'">
 
   <!-- Top Navigation Back Button -->
   <div class="top-nav-container">
@@ -295,7 +301,7 @@
   <div class="gallery-container">
     <div class="content-wrapper">
       
-      <h2 class="text-center title-silver mb-2">NATURE'S VILAGE RESORT ACCOMMODATIONS</h2>
+      <h2 class="text-center title-silver mb-2">NATURE'S VILLAGE RESORT ACCOMMODATIONS</h2>
       <p class="text-center text-light-50 mb-4" style="color: var(--silver-accent);">Select a room category to explore the available spaces</p>
 
       <!-- Center Top Room Selection Filter -->
