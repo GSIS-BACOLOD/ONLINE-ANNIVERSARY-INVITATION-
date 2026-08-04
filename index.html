@@ -21,14 +21,6 @@
             --silver-accent: #E6F1FF;
             --silver-metallic: linear-gradient(135deg, #E0E0E0 0%, #FFFFFF 50%, #B0B0B0 100%);
             --silver-glow: rgba(224, 224, 224, 0.4);
-            /* Complex Navy Fresco Texture */
-            --envelope-navy: #112240;
-            --envelope-texture: 
-                radial-gradient(circle at 50% 50%, rgba(23, 42, 69, 0.6) 0%, rgba(17, 34, 64, 0) 80%),
-                linear-gradient(135deg, #162a47 0%, #112240 50%, #0f1b2d 100%);
-            --envelope-shadow: 
-                inset 0 2px 3px rgba(230, 241, 255, 0.15),
-                inset 0 -3px 5px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -38,19 +30,13 @@
         }
 
         html, body {
+            height: 100%;
             min-height: 100vh;
             font-family: 'Montserrat', sans-serif;
             background-color: var(--navy-dark);
             color: var(--silver-light);
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-        }
-
-        @media (min-height: 650px) and (min-width: 768px) {
-            html, body {
-                height: 100%;
-                overflow: hidden;
-            }
         }
 
         /* Canvas for Silver Glitter Animation */
@@ -70,248 +56,49 @@
             position: fixed;
             inset: 0;
             background: 
-                radial-gradient(circle at 50% 30%, rgba(17, 34, 64, 0.8) 0%, rgba(2, 12, 27, 0.95) 70%),
+                radial-gradient(circle at 50% 50%, rgba(17, 34, 64, 0.8) 0%, rgba(2, 12, 27, 0.95) 70%),
                 linear-gradient(rgba(2, 12, 27, 0.75), rgba(10, 25, 47, 0.85));
             backdrop-filter: blur(2px);
             z-index: 0;
         }
 
-        /* Static Background Logo (Bigger Size) */
+        /* Static Background Logo (Slightly Smaller) */
         .bg-logo {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 650px;
-            max-width: 85vw;
+            width: 500px;
+            max-width: 75vw;
             height: auto;
             opacity: 0.12;
             z-index: 1;
             pointer-events: none;
         }
 
-        /* Hero Content */
+        /* Hero Container - Full Screen Centering */
         .hero {
             position: relative;
             z-index: 2;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 40px 15px 30px;
+            padding: 20px;
         }
 
         .hero-content {
             width: 100%;
             max-width: 850px;
-            margin: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        /* --- Executive Header Typography --- */
-        .small-text {
-            font-family: 'Cinzel', serif;
-            font-size: 1.75rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin-top: 80px; /* Moved down further */
-            margin-bottom: 5px;
-            padding-bottom: 12px;
-            position: relative;
-            background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 40%, #9CA3AF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
-        }
-
-        /* Subtle underline accent for executive look */
-        .small-text::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(230, 241, 255, 0.6), transparent);
-        }
-
-        .title {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-top: 10px;
-            letter-spacing: 2px;
-            background: var(--silver-metallic);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 8px 20px rgba(0,0,0,0.6);
-        }
-
-        .subtitle {
-            color: #CCD6F6;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            margin-top: 8px;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        /******************************
-        Envelope Styling (Fresco Navy)
-        ******************************/
-        .envelope-wrapper {
-            display: flex;
             justify-content: center;
-            cursor: pointer;
-            margin-top: 20px;
-            animation: float 3.5s ease-in-out infinite;
-        }
-
-        .envelope {
-            position: relative;
-            width: 320px;
-            height: 210px;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8));
-            transition: transform 0.4s ease;
-        }
-
-        .envelope:hover {
-            transform: scale(1.05) translateY(-5px);
-        }
-
-        .envelope-back {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--envelope-texture);
-            border: 1px solid rgba(192, 192, 192, 0.2);
-            border-radius: 10px;
-            box-shadow: var(--envelope-shadow);
-        }
-
-        /* Common Flap styles for textured look */
-        .envelope-left, .envelope-right, .envelope-bottom, .flap {
-            box-shadow: var(--envelope-shadow);
-        }
-
-        .envelope-left {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-top: 105px solid transparent;
-            border-bottom: 105px solid transparent;
-            border-right: 160px solid #1a2f4f; /* Slightly lighter inner fresco */
-            border-radius: 10px 0 0 10px;
-            filter: drop-shadow(2px 0 2px rgba(0,0,0,0.3));
-        }
-
-        .envelope-right {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-top: 105px solid transparent;
-            border-bottom: 105px solid transparent;
-            border-left: 160px solid #142641; /* Deeper fresco */
-            border-radius: 0 10px 10px 0;
-            filter: drop-shadow(-2px 0 2px rgba(0,0,0,0.3));
-        }
-
-        .envelope-bottom {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 120px solid #0c1829; /* Darkest bottom fresco */
-            border-radius: 0 0 10px 10px;
-            filter: drop-shadow(0 -2px 3px rgba(0,0,0,0.4));
-        }
-
-        .flap {
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-bottom: 120px solid #233554; /* Light top flap */
-            transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3;
-            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5));
-            border-radius: 10px 10px 0 0;
-        }
-
-        /* Metallic Silver Wax Seal */
-        .seal {
-            position: absolute;
-            top: 95px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: var(--silver-metallic);
-            border: 3px solid #FFFFFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--navy-dark);
-            font-family: 'Cinzel', serif;
-            font-weight: 800;
-            font-size: 24px;
-            transition: all 0.5s ease, border-color 0.3s ease;
-            box-shadow: 
-                0 0 25px rgba(255, 255, 255, 0.5), 
-                inset 0 0 15px rgba(0,0,0,0.3),
-                0 4px 10px rgba(0,0,0,0.5);
-            z-index: 4;
-        }
-
-        .seal::before {
-            content: '';
-            position: absolute;
-            inset: 5px;
-            border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .envelope:hover .seal {
-            box-shadow: 0 0 35px rgba(255, 255, 255, 0.7), inset 0 0 15px rgba(0,0,0,0.3);
-            border-color: var(--silver-accent);
-        }
-
-        .shadow {
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%) scaleX(1);
-            width: 240px;
-            height: 25px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.7);
-            filter: blur(12px);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .envelope:hover .shadow {
-             transform: translateX(-50%) scaleX(1.1);
-             opacity: 0.8;
         }
 
         .click-text {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             color: var(--silver-light);
             letter-spacing: 3px;
             font-size: 0.9rem;
@@ -322,17 +109,102 @@
             text-shadow: 0 0 10px var(--silver-glow);
         }
 
-        /******************************
-        Animations & Open States
-        *****************************/
-        .open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
+        /* --- Spinning Image Diamond --- */
+        .diamond-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            perspective: 1000px;
+            padding: 20px;
+            position: relative;
         }
 
-        .open .seal {
-            opacity: 0;
-            transform: translateX(-50%) scale(0) rotate(-45deg);
+        .diamond-container {
+            position: relative;
+            width: 220px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: spinDiamond 8s linear infinite;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease;
+        }
+
+        .diamond-img {
+            width: 200%;
+            height: auto;
+            object-fit: contain;
+            mix-blend-mode: screen; /* Smoothly blends background if image has white edges */
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            user-select: none;
+        }
+
+        .diamond-wrapper:hover .diamond-container {
+            animation-play-state: paused;
+            transform: scale(1.15);
+        }
+
+        /* Shadow beneath the Diamond */
+        .diamond-shadow {
+            position: absolute;
+            bottom: -15px;
+            width: 130px;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: pulseShadow 4s ease-in-out infinite;
+        }
+
+        /* --- Executive Footer Typography (Anchored to Bottom & Larger) --- */
+        .small-text {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            z-index: 3;
+            font-family: 'Cinzel', serif;
+            font-size: 1.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            padding-bottom: 12px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 40%, #9CA3AF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+        }
+
+        .small-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(230, 241, 255, 0.6), transparent);
+        }
+
+        /******************************
+        Animations & States
+        *****************************/
+        @keyframes spinDiamond {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        @keyframes pulseShadow {
+            0%, 100% { transform: scaleX(1); opacity: 0.6; }
+            50% { transform: scaleX(0.7); opacity: 0.3; }
         }
 
         .fade-out {
@@ -346,12 +218,6 @@
             }
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
         @keyframes pulseText {
             0%, 100% { opacity: 0.7; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.02); }
@@ -362,59 +228,40 @@
         *****************************/
         @media (max-width: 768px) {
             .bg-logo {
-                width: 460px;
+                width: 380px;
             }
 
             .small-text {
-                font-size: 0.85rem;
-                letter-spacing: 5px;
-                margin-top: 60px;
+                font-size: 1.15rem;
+                letter-spacing: 4px;
+                bottom: 25px;
             }
 
-            .title {
-                font-size: 2.3rem;
-            }
-
-            .subtitle {
-                font-size: 0.88rem;
-                margin-bottom: 30px;
-            }
-
-            .envelope {
-                transform: scale(0.85);
-            }
-
-            .envelope:hover {
-                transform: scale(0.88) translateY(-5px);
+            .diamond-container {
+                width: 180px;
+                height: 150px;
             }
 
             .click-text {
                 font-size: 0.8rem;
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
         }
 
         @media (max-width: 480px) {
             .bg-logo {
-                width: 360px;
+                width: 280px;
             }
 
             .small-text {
-                font-size: 0.75rem;
-                letter-spacing: 3px;
-                margin-top: 50px;
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+                bottom: 20px;
             }
 
-            .title {
-                font-size: 1.8rem;
-            }
-
-            .envelope {
-                transform: scale(0.75);
-            }
-
-            .envelope:hover {
-                transform: scale(0.78) translateY(-5px);
+            .diamond-container {
+                width: 140px;
+                height: 110px;
             }
         }
     </style>
@@ -426,50 +273,40 @@
     <canvas id="glitterCanvas"></canvas>
 
     <!-- Static Background Logo -->
-    <img src="logo.png" class="bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/650/112240/FFFFFF?text=GSIS+Logo'">
+    <img src="logo.png" class="bg-logo" alt="GSIS Background Logo" onerror="this.src='https://via.placeholder.com/500/112240/FFFFFF?text=GSIS+Logo'">
 
+    <!-- Perfectly Centered Hero Container -->
     <div class="container hero">
         <div class="hero-content">
 
-            <!-- Instruction Text ABOVE the Envelope -->
-            <div class="click-text">Click the invitation to open</div>
+            <!-- Instruction Text ABOVE the Diamond -->
+            <div class="click-text">Click the diamond to enter event</div>
 
-            <!-- Envelope Component -->
-            <div id="envelopeWrapper" class="envelope-wrapper">
-                <div class="envelope">
-                    <div class="shadow"></div>
-                    <div class="envelope-back"></div>
-                    <div class="envelope-left"></div>
-                    <div class="envelope-right"></div>
-                    <div class="envelope-bottom"></div>
-                    <div class="flap"></div>
-                    <div class="seal">60</div>
+            <!-- 3D Spinning Diamond Component -->
+            <div id="diamondWrapper" class="diamond-wrapper">
+                <div class="diamond-container">
+                    <img src="diamond.png" class="diamond-img" alt="Spinning Diamond">
                 </div>
+                <div class="diamond-shadow"></div>
             </div>
-
-            <!-- Government Service Insurance System Text BELOW the Envelope -->
-            <div class="small-text">Government Service Insurance System</div>
 
         </div>
     </div>
 
+    <!-- Government Service Insurance System Text (Fixed at Bottom) -->
+    <div class="small-text">Government Service Insurance System</div>
+
     <!-- JavaScript Navigation & Glitter Animation -->
     <script>
-        // Envelope Open & Redirect
-        const wrapper = document.getElementById("envelopeWrapper");
+        // Diamond Click & Redirect
+        const diamondWrapper = document.getElementById("diamondWrapper");
 
-        wrapper.onclick = function () {
-            const envelope = document.querySelector(".envelope");
-
-            envelope.classList.add("open");
-
-            setTimeout(() => {
-                document.body.classList.add("fade-out");
-            }, 700);
+        diamondWrapper.onclick = function () {
+            document.body.classList.add("fade-out");
 
             setTimeout(() => {
                 window.location.href = "event.html";
-            }, 1500);
+            }, 800);
         };
 
         // Dynamic Silver Glitter Particle System
